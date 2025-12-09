@@ -13,12 +13,31 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
+// 导入静态图片
+import semPathImg from './assets/Advanced_SEM_Path.png';
+import riskIntentionImg from './assets/Advanced_Risk_Intention.png';
+import sankeyImg from './assets/Advanced_Sankey_Knowledge_to_Intention.png';
+import variableChordImg from './assets/Advanced_Variable_Chord.png';
+import ridgelineImg from './assets/Advanced_Ridgeline_Core_Indices.png';
+
 // --- 1. 数据部分 (Data) ---
+
+// 配色方案 (与图表一致)
+const COLORS = {
+  primary: '#B6B3D6',      // Cool Purple-Grey
+  primaryLight: '#CFCFE3',
+  neutral: '#D5D3DE',      // Light Grey
+  neutralMid: '#D5D1D1',
+  warmLight: '#F6DFD6',    // Light Coral Pink
+  warm: '#F8B2A2',
+  warmDeep: '#F1837A',
+  accent: '#E9687A',       // Deep Red-Pink
+};
 
 // 1.1 样本分布
 const demographicsData = [
-  { name: '男性', value: 62.7, fill: '#3b82f6' },
-  { name: '女性', value: 37.3, fill: '#ec4899' },
+  { name: '男性', value: 47, fill: '#B6B3D6' },
+  { name: '女性', value: 28, fill: '#E9687A' },
 ];
 
 // 1.2 学历差异 (Dumbbell Data)
@@ -76,28 +95,28 @@ const sankeyData = {
 
 // 1.5 PCA 散点图模拟数据
 const pcaData = [
-  { x: 2.5, y: 1.1, type: '高意愿 (High Int)', fill: '#f87171' }, 
-  { x: 1.8, y: 0.8, type: '高意愿 (High Int)', fill: '#f87171' },
-  { x: 2.1, y: -0.5, type: '高意愿 (High Int)', fill: '#f87171' },
-  { x: 1.2, y: -2.0, type: '高意愿 (High Int)', fill: '#f87171' },
-  { x: 0.5, y: -1.5, type: '高意愿 (High Int)', fill: '#f87171' },
-  { x: 0.2, y: 0.8, type: '中意愿 (Med Int)', fill: '#fbbf24' },
-  { x: -0.5, y: 0.5, type: '中意愿 (Med Int)', fill: '#fbbf24' },
-  { x: -1.2, y: 1.2, type: '中意愿 (Med Int)', fill: '#fbbf24' },
-  { x: -1.5, y: -0.8, type: '低意愿 (Low Int)', fill: '#94a3b8' },
-  { x: -2.0, y: 0.2, type: '低意愿 (Low Int)', fill: '#94a3b8' },
-  { x: -0.8, y: -2.2, type: '低意愿 (Low Int)', fill: '#94a3b8' },
-  { x: -2.5, y: -0.3, type: '低意愿 (Low Int)', fill: '#94a3b8' },
+  { x: 2.5, y: 1.1, type: '高意愿 (High Int)', fill: '#E9687A' }, 
+  { x: 1.8, y: 0.8, type: '高意愿 (High Int)', fill: '#E9687A' },
+  { x: 2.1, y: -0.5, type: '高意愿 (High Int)', fill: '#E9687A' },
+  { x: 1.2, y: -2.0, type: '高意愿 (High Int)', fill: '#E9687A' },
+  { x: 0.5, y: -1.5, type: '高意愿 (High Int)', fill: '#E9687A' },
+  { x: 0.2, y: 0.8, type: '中意愿 (Med Int)', fill: '#F8B2A2' },
+  { x: -0.5, y: 0.5, type: '中意愿 (Med Int)', fill: '#F8B2A2' },
+  { x: -1.2, y: 1.2, type: '中意愿 (Med Int)', fill: '#F8B2A2' },
+  { x: -1.5, y: -0.8, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
+  { x: -2.0, y: 0.2, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
+  { x: -0.8, y: -2.2, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
+  { x: -2.5, y: -0.3, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
 ];
 
 // 1.6 相关性弦图数据模拟
 const chordNodes = [
-  { id: 'Trust', label: '信任', color: '#f87171', angle: 0 },
-  { id: 'Policy', label: '政策', color: '#818cf8', angle: 60 },
-  { id: 'Attitude', label: '态度', color: '#64748b', angle: 120 },
-  { id: 'Intention', label: '意愿', color: '#34d399', angle: 180 },
-  { id: 'Know', label: '认知', color: '#a78bfa', angle: 240 },
-  { id: 'Resp', label: '责任', color: '#fbbf24', angle: 300 },
+  { id: 'Trust', label: '信任', color: '#E9687A', angle: 0 },
+  { id: 'Policy', label: '政策', color: '#B6B3D6', angle: 60 },
+  { id: 'Attitude', label: '态度', color: '#D5D3DE', angle: 120 },
+  { id: 'Intention', label: '意愿', color: '#F1837A', angle: 180 },
+  { id: 'Know', label: '认知', color: '#CFCFE3', angle: 240 },
+  { id: 'Resp', label: '责任', color: '#F8B2A2', angle: 300 },
 ];
 
 const chordLinks = [
@@ -160,7 +179,7 @@ const NavBar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className={`font-bold text-xl flex items-center space-x-2 ${scrolled ? 'text-slate-800' : 'text-white'}`}>
-          <div className="bg-emerald-500 p-1.5 rounded-lg text-white">
+          <div className="bg-[#E9687A] p-1.5 rounded-lg text-white">
             <Zap size={20} fill="currentColor" />
           </div>
           <span className="tracking-tight">EV Research <span className="font-light opacity-80">2024</span></span>
@@ -174,7 +193,7 @@ const NavBar = () => {
                <button 
                  key={item} 
                  onClick={() => scrollTo(ids[idx])}
-                 className={`px-4 py-2 rounded-full transition-all hover:bg-emerald-500/10 hover:text-emerald-500 ${scrolled ? '' : 'hover:bg-white/10 hover:text-white'}`}
+                 className={`px-4 py-2 rounded-full transition-all hover:bg-[#E9687A]/10 hover:text-[#E9687A] ${scrolled ? '' : 'hover:bg-white/10 hover:text-white'}`}
                >
                  {item}
                </button>
@@ -183,7 +202,7 @@ const NavBar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden text-emerald-500 p-2" onClick={() => setIsOpen(!isOpen)}>
+        <button className="md:hidden text-[#E9687A] p-2" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -238,13 +257,14 @@ const SectionTitle = ({ title, subtitle, light = false }) => (
   >
     <h2 className={`text-3xl md:text-5xl font-bold mb-6 tracking-tight ${light ? 'text-white' : 'text-slate-900'}`}>{title}</h2>
     {subtitle && <p className={`text-lg md:text-xl leading-relaxed ${light ? 'text-slate-300' : 'text-slate-500'}`}>{subtitle}</p>}
-    <div className={`h-1.5 w-24 mx-auto mt-8 rounded-full ${light ? 'bg-emerald-500' : 'bg-gradient-to-r from-emerald-500 to-teal-400'}`}></div>
+    <div className={`h-1.5 w-24 mx-auto mt-8 rounded-full ${light ? 'bg-[#E9687A]' : 'bg-gradient-to-r from-[#B6B3D6] to-[#E9687A]'}`}></div>
   </motion.div>
 );
 
 // --- Visual Components ---
 
 const CorrelationNetwork = () => {
+  const [hoveredNode, setHoveredNode] = useState(null);
   const radius = 120;
   const center = 160;
   
@@ -254,6 +274,37 @@ const CorrelationNetwork = () => {
       x: center + radius * Math.cos(rad),
       y: center + radius * Math.sin(rad)
     };
+  };
+
+  // 计算标签位置，避免重叠
+  const getLabelOffset = (link, sourcePos, targetPos) => {
+    const midX = (sourcePos.x + targetPos.x) / 2;
+    const midY = (sourcePos.y + targetPos.y) / 2;
+    // 计算从中心点到连线中点的方向，将标签向外偏移
+    const dirX = midX - center;
+    const dirY = midY - center;
+    const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+    const offsetDist = 25; // 偏移距离
+    return {
+      x: midX + (dirX / dist) * offsetDist,
+      y: midY + (dirY / dist) * offsetDist
+    };
+  };
+
+  // 检查连线是否与当前悬停节点相关
+  const isLinkHighlighted = (link) => {
+    if (!hoveredNode) return false;
+    return link.source === hoveredNode || link.target === hoveredNode;
+  };
+
+  // 检查节点是否与当前悬停节点相关联
+  const isNodeHighlighted = (nodeId) => {
+    if (!hoveredNode) return true;
+    if (nodeId === hoveredNode) return true;
+    return chordLinks.some(link => 
+      (link.source === hoveredNode && link.target === nodeId) ||
+      (link.target === hoveredNode && link.source === nodeId)
+    );
   };
 
   return (
@@ -270,32 +321,94 @@ const CorrelationNetwork = () => {
           const targetNode = chordNodes.find(n => n.id === link.target);
           const start = getNodePos(sourceNode.angle);
           const end = getNodePos(targetNode.angle);
+          const labelPos = getLabelOffset(link, start, end);
+          const highlighted = isLinkHighlighted(link);
+          const dimmed = hoveredNode && !highlighted;
+          
           return (
             <motion.g 
               key={i}
               initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 0.3 }}
-              transition={{ duration: 1, delay: i * 0.1 }}
+              whileInView={{ pathLength: 1, opacity: dimmed ? 0.1 : (highlighted ? 0.8 : 0.3) }}
+              animate={{ opacity: dimmed ? 0.1 : (highlighted ? 0.8 : 0.3) }}
+              transition={{ duration: 0.3 }}
             >
-              <path d={`M${start.x},${start.y} Q${center},${center} ${end.x},${end.y}`} fill="none" stroke={sourceNode.color} strokeWidth={link.width} />
-              <text x={(start.x+end.x)/2} y={(start.y+end.y)/2} fontSize="10" fill="#64748b" textAnchor="middle" dy="-5" bg="white">{link.value}</text>
+              <path 
+                d={`M${start.x},${start.y} Q${center},${center} ${end.x},${end.y}`} 
+                fill="none" 
+                stroke={highlighted ? sourceNode.color : sourceNode.color} 
+                strokeWidth={highlighted ? link.width + 2 : link.width}
+                style={{ filter: highlighted ? 'drop-shadow(0 0 4px rgba(0,0,0,0.3))' : 'none' }}
+              />
+              <rect 
+                x={labelPos.x - 16} 
+                y={labelPos.y - 8} 
+                width="32" 
+                height="16" 
+                fill="white" 
+                rx="4"
+                opacity={dimmed ? 0.3 : 0.9}
+              />
+              <text 
+                x={labelPos.x} 
+                y={labelPos.y} 
+                fontSize="10" 
+                fill={highlighted ? '#1e293b' : '#64748b'} 
+                textAnchor="middle" 
+                dy="3"
+                fontWeight={highlighted ? 'bold' : 'normal'}
+                opacity={dimmed ? 0.3 : 1}
+              >
+                {link.value}
+              </text>
             </motion.g>
           );
         })}
 
         {chordNodes.map((node, i) => {
           const pos = getNodePos(node.angle);
+          const isActive = hoveredNode === node.id;
+          const isRelated = isNodeHighlighted(node.id);
+          const dimmed = hoveredNode && !isRelated;
+          
           return (
             <motion.g 
               key={i} 
               className="cursor-pointer"
-              whileHover={{ scale: 1.2 }}
+              onMouseEnter={() => setHoveredNode(node.id)}
+              onMouseLeave={() => setHoveredNode(null)}
+              whileHover={{ scale: 1.15 }}
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
+              animate={{ 
+                opacity: dimmed ? 0.3 : 1,
+              }}
               transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.5 + i * 0.1 }}
             >
-              <circle cx={pos.x} cy={pos.y} r="24" fill="white" stroke={node.color} strokeWidth="3" className="drop-shadow-sm" />
-              <text x={pos.x} y={pos.y} dy="4" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#334155">{node.label}</text>
+              <circle 
+                cx={pos.x} 
+                cy={pos.y} 
+                r={isActive ? 28 : 24} 
+                fill="white" 
+                stroke={node.color} 
+                strokeWidth={isActive ? 4 : 3} 
+                className="drop-shadow-sm"
+                style={{ 
+                  filter: isActive ? `drop-shadow(0 0 8px ${node.color})` : 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              />
+              <text 
+                x={pos.x} 
+                y={pos.y} 
+                dy="4" 
+                textAnchor="middle" 
+                fontSize={isActive ? "12" : "11"} 
+                fontWeight="bold" 
+                fill={isActive ? node.color : '#334155'}
+              >
+                {node.label}
+              </text>
             </motion.g>
           );
         })}
@@ -331,9 +444,9 @@ const DumbbellChart = () => {
             ></motion.div>
             
             {[
-              { val: item.undergraduate, color: 'bg-blue-400', label: '本科' },
-              { val: item.master, color: 'bg-indigo-500', label: '硕士' },
-              { val: item.phd, color: 'bg-rose-500', label: '博士' }
+              { val: item.undergraduate, color: 'bg-[#CFCFE3]', label: '本科' },
+              { val: item.master, color: 'bg-[#B6B3D6]', label: '硕士' },
+              { val: item.phd, color: 'bg-[#E9687A]', label: '博士' }
             ].map((point, pIdx) => (
               <motion.div 
                 key={pIdx}
@@ -352,9 +465,9 @@ const DumbbellChart = () => {
         </motion.div>
       ))}
       <div className="flex justify-center gap-6 text-xs text-slate-500 mt-2 pt-4 border-t border-slate-100">
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-blue-400 mr-2"></div>本科生</div>
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-indigo-500 mr-2"></div>硕士生</div>
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-rose-500 mr-2"></div>博士生</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#CFCFE3] mr-2"></div>本科生</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#B6B3D6] mr-2"></div>硕士生</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#E9687A] mr-2"></div>博士生</div>
       </div>
     </div>
   );
@@ -471,16 +584,16 @@ const PathDiagram = () => {
       {/* Node 1: Knowledge (Left) */}
       <motion.div 
         variants={nodeVariant} initial="hidden" whileInView="visible" custom={0}
-        className="absolute left-[10%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-20 bg-indigo-200/50 border-2 border-indigo-300 rounded-xl flex flex-col items-center justify-center text-center shadow-sm z-10"
+        className="absolute left-[10%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-20 bg-[#CFCFE3]/50 border-2 border-[#B6B3D6] rounded-xl flex flex-col items-center justify-center text-center shadow-sm z-10"
       >
-        <BookOpen size={18} className="text-indigo-600 mb-1" />
-        <span className="font-bold text-sm text-indigo-900">Knowledge</span>
+        <BookOpen size={18} className="text-[#B6B3D6] mb-1" />
+        <span className="font-bold text-sm text-slate-700">Knowledge</span>
       </motion.div>
       
       {/* Node 2: Trust (Top Middle) */}
       <motion.div 
         variants={nodeVariant} initial="hidden" whileInView="visible" custom={0.8}
-        className="absolute left-[40%] top-[25%] -translate-x-1/2 -translate-y-1/2 w-32 h-24 bg-rose-400 border-2 border-rose-500 rounded-2xl flex flex-col items-center justify-center text-center shadow-lg z-10 text-white"
+        className="absolute left-[40%] top-[25%] -translate-x-1/2 -translate-y-1/2 w-32 h-24 bg-[#E9687A] border-2 border-[#F1837A] rounded-2xl flex flex-col items-center justify-center text-center shadow-lg z-10 text-white"
       >
         <Shield size={20} className="text-white mb-1" />
         <span className="font-bold text-sm">Trust</span>
@@ -562,10 +675,10 @@ const RidgelineChart = () => {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('demographics');
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 selection:bg-[#F6DFD6] selection:text-[#E9687A] overflow-x-hidden">
       
       <NavBar />
 
@@ -575,12 +688,12 @@ export default function App() {
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-0 right-0 w-[800px] h-[800px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"
+          className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#E9687A]/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"
         />
         <motion.div 
           animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.15, 0.1] }}
           transition={{ duration: 10, repeat: Infinity, delay: 1 }}
-          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/4"
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#B6B3D6]/10 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/4"
         />
 
         <div className="max-w-6xl mx-auto relative z-10">
@@ -588,11 +701,11 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center space-x-2 bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-full px-4 py-1.5 mb-8 text-emerald-400 text-xs font-bold tracking-widest uppercase shadow-lg"
+            className="inline-flex items-center space-x-2 bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-full px-4 py-1.5 mb-8 text-[#F8B2A2] text-xs font-bold tracking-widest uppercase shadow-lg"
           >
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F8B2A2] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E9687A]"></span>
             </span>
             <span>Research Report 2024</span>
           </motion.div>
@@ -604,7 +717,7 @@ export default function App() {
             className="text-5xl md:text-7xl font-extrabold leading-tight mb-8 tracking-tight"
           >
             能源转型背景下<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-cyan-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F8B2A2] via-[#F6DFD6] to-[#CFCFE3]">
               大学生能源认知与 EV 态度
             </span>
           </motion.h1>
@@ -626,7 +739,7 @@ export default function App() {
           >
             <button 
               onClick={() => document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-emerald-500 hover:bg-emerald-400 text-slate-900 px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 group"
+              className="bg-[#E9687A] hover:bg-[#F1837A] text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(233,104,122,0.3)] hover:shadow-[0_0_30px_rgba(233,104,122,0.5)] flex items-center justify-center gap-2 group"
             >
               探索数据可视化 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
@@ -655,9 +768,9 @@ export default function App() {
                className="space-y-8"
              >
                {[
-                 { icon: Globe, color: 'text-indigo-600', bg: 'bg-indigo-50', title: '全球气候目标', desc: '根据国际可再生能源署 (IRENA) 《2023年世界能源转型展望》，为实现温升控制在 1.5°C 以内的目标，交通系统的电气化变革刻不容缓。' },
-                 { icon: Activity, color: 'text-rose-600', bg: 'bg-rose-50', title: '交通部门排放', desc: '交通运输约占全球 CO₂ 排放总量的 1/4。推广新能源汽车 (EVs) 不仅是技术升级，更是深度脱碳的核心路径。' },
-                 { icon: Users, color: 'text-emerald-600', bg: 'bg-emerald-50', title: '为什么关注大学生？', desc: '作为未来的消费主力军，大学生正处于从学校步入社会的人生转折点。他们的认知与态度，将深刻预示未来几十年的社会交通模式。' }
+                 { icon: Globe, color: 'text-[#B6B3D6]', bg: 'bg-[#CFCFE3]/30', title: '全球气候目标', desc: '根据国际可再生能源署 (IRENA) 《2023年世界能源转型展望》，为实现温升控制在 1.5°C 以内的目标，交通系统的电气化变革刻不容缓。' },
+                 { icon: Activity, color: 'text-[#F1837A]', bg: 'bg-[#F6DFD6]', title: '交通部门排放', desc: '交通运输约占全球 CO₂ 排放总量的 1/4。推广新能源汽车 (EVs) 不仅是技术升级，更是深度脱碳的核心路径。' },
+                 { icon: Users, color: 'text-[#E9687A]', bg: 'bg-[#F6DFD6]', title: '为什么关注大学生？', desc: '作为未来的消费主力军，大学生正处于从学校步入社会的人生转折点。他们的认知与态度，将深刻预示未来几十年的社会交通模式。' }
                ].map((item, i) => (
                  <motion.div key={i} variants={fadeInUp} className="flex items-start space-x-5 group">
                    <div className={`${item.bg} p-4 rounded-2xl ${item.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
@@ -680,9 +793,9 @@ export default function App() {
                transition={{ duration: 0.8 }}
                className="bg-slate-50 rounded-3xl p-10 border border-slate-100 relative overflow-hidden group hover:shadow-2xl transition-shadow duration-500"
              >
-               <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-indigo-500/10 transition-all"></div>
+               <div className="absolute top-0 right-0 w-64 h-64 bg-[#B6B3D6]/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-[#B6B3D6]/10 transition-all"></div>
                <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center">
-                 <Search className="mr-3 text-indigo-500" /> 研究问题 (Research Questions)
+                 <Search className="mr-3 text-[#E9687A]" /> 研究问题 (Research Questions)
                </h3>
                <ul className="space-y-4 relative z-10">
                  {[
@@ -695,9 +808,9 @@ export default function App() {
                      initial={{ opacity: 0, x: 20 }}
                      whileInView={{ opacity: 1, x: 0 }}
                      transition={{ delay: 0.2 + i * 0.1 }}
-                     className="flex items-center space-x-4 bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:border-indigo-200 transition-colors"
+                     className="flex items-center space-x-4 bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:border-[#F8B2A2] transition-colors"
                    >
-                     <span className="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md shadow-indigo-200">{i+1}</span>
+                     <span className="bg-[#E9687A] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md shadow-[#F6DFD6]">{i+1}</span>
                      <span className="text-slate-700 font-medium text-lg">{q}</span>
                    </motion.li>
                  ))}
@@ -728,8 +841,8 @@ export default function App() {
               { label: '分析工具', val: 'SEM', icon: Network, sub: '结构方程模型' },
               { label: '降维分析', val: 'PCA', icon: BarChart2, sub: '主成分分析' },
             ].map((item, i) => (
-              <Card key={i} className="flex flex-col items-center text-center py-10 hover:border-emerald-200">
-                <div className="bg-slate-100 p-4 rounded-full mb-5 text-slate-600 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
+              <Card key={i} className="flex flex-col items-center text-center py-10 hover:border-[#F8B2A2]">
+                <div className="bg-slate-100 p-4 rounded-full mb-5 text-slate-600 group-hover:bg-[#F6DFD6] group-hover:text-[#E9687A] transition-colors">
                   <item.icon size={32} />
                 </div>
                 <div className="text-4xl font-extrabold text-slate-800 mb-2 tracking-tight">{item.val}</div>
@@ -747,29 +860,29 @@ export default function App() {
             className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-10"
           >
             <h3 className="text-xl font-bold mb-8 text-slate-800 flex items-center">
-              <GitCommit className="mr-3 text-indigo-500"/> 研究架构与变量定义
+              <GitCommit className="mr-3 text-[#B6B3D6]"/> 研究架构与变量定义
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
               {/* Connecting Line for Desktop */}
-              <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-indigo-200 via-rose-200 to-emerald-200 -z-10"></div>
+              <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-[#CFCFE3] via-[#F8B2A2] to-[#E9687A] -z-10"></div>
 
               <div className="space-y-4 text-center md:text-left">
                 <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">自变量 (IV)</span>
-                <div className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100 text-indigo-900 font-bold text-lg shadow-sm">
+                <div className="p-6 bg-[#CFCFE3]/30 rounded-2xl border border-[#B6B3D6]/30 text-slate-700 font-bold text-lg shadow-sm">
                   能源认知 (Knowledge)
                 </div>
                 <p className="text-sm text-slate-500 leading-relaxed">对能源转型、EV技术原理的基础了解程度。</p>
               </div>
               <div className="space-y-4 text-center md:text-left">
                  <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">中介变量 (Mediator)</span>
-                 <div className="p-6 bg-rose-50 rounded-2xl border border-rose-100 text-rose-900 font-bold text-lg shadow-sm">
+                 <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#E9687A] font-bold text-lg shadow-sm">
                    制度信任 & 责任感
                  </div>
                  <p className="text-sm text-slate-500 leading-relaxed">对国家政策的认同、对技术的信心、环境责任感。</p>
               </div>
               <div className="space-y-4 text-center md:text-left">
                  <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">因变量 (DV)</span>
-                 <div className="p-6 bg-emerald-50 rounded-2xl border border-emerald-100 text-emerald-900 font-bold text-lg shadow-sm">
+                 <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#E9687A] font-bold text-lg shadow-sm">
                    购买意愿 (Intention)
                  </div>
                  <p className="text-sm text-slate-500 leading-relaxed">未来购买新能源汽车的可能性。</p>
@@ -789,26 +902,21 @@ export default function App() {
 
           {/* Tabs Navigation */}
           <div className="flex justify-center mb-12">
-            <div className="inline-flex bg-slate-100 p-1.5 rounded-2xl relative">
+            <div className="inline-flex bg-slate-100 p-1.5 rounded-2xl relative gap-2">
               {[
-                { id: 'overview', label: '核心机制 (SEM)' },
-                { id: 'deep-dive', label: '深度分析 (PCA)' },
-                { id: 'demographics', label: '群体特征' }
+                { id: 'demographics', label: '群体特征' },
+                { id: 'overview', label: '核心机制' },
+                { id: 'deep-dive', label: '深度分析' }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`relative px-8 py-3 rounded-xl font-bold text-sm transition-colors z-10 ${
-                    activeTab === tab.id ? 'text-emerald-700' : 'text-slate-500 hover:text-slate-700'
+                  className={`relative px-8 py-3 rounded-xl font-bold text-sm transition-all z-10 ${
+                    activeTab === tab.id 
+                      ? 'text-[#E9687A] bg-white shadow-sm border border-slate-200/50' 
+                      : 'text-slate-500 hover:text-slate-700'
                   }`}
                 >
-                  {activeTab === tab.id && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-white shadow-sm rounded-xl border border-slate-200/50"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
                   <span className="relative z-10">{tab.label}</span>
                 </button>
               ))}
@@ -831,17 +939,17 @@ export default function App() {
                   <Card className="w-full">
                      <div className="flex justify-between items-center mb-8">
                        <h3 className="font-bold text-xl text-slate-800 flex items-center">
-                         <Network className="mr-2 text-emerald-500"/> 路径分析模型 (SEM)
+                         <Network className="mr-2 text-[#E9687A]"/> 路径分析模型 (SEM)
                        </h3>
-                       <span className="text-xs font-mono bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-100">Model Fit: Good (RMSEA=0.04)</span>
+                       <span className="text-xs font-mono bg-[#F6DFD6] text-[#E9687A] px-3 py-1 rounded-full border border-[#F8B2A2]">Model Fit: Good (RMSEA=0.04)</span>
                      </div>
-                     <div className="w-full flex items-center justify-center bg-slate-50/30 rounded-xl border border-slate-100/50 p-4">
-                        <PathDiagram />
+                     <div className="w-full flex items-center justify-center bg-white rounded-xl border border-slate-100/50 p-2">
+                        <img src={semPathImg} alt="SEM Path Diagram" className="w-full h-auto max-h-[500px] object-contain" />
                      </div>
-                     <div className="mt-6 p-4 bg-indigo-50/50 rounded-xl border border-indigo-100 text-sm text-slate-700 leading-relaxed flex items-start gap-3">
-                       <Lightbulb className="text-indigo-600 shrink-0 mt-0.5" size={18} />
+                     <div className="mt-6 p-4 bg-[#CFCFE3]/30 rounded-xl border border-[#B6B3D6]/30 text-sm text-slate-700 leading-relaxed flex items-start gap-3">
+                       <Lightbulb className="text-[#E9687A] shrink-0 mt-0.5" size={18} />
                        <div>
-                         <strong className="text-indigo-700 block mb-1">关键路径发现：</strong> 
+                         <strong className="text-[#E9687A] block mb-1">关键路径发现：</strong> 
                          知识 → 信任 (β=0.22) → 意愿 (β=0.45)。这表明知识主要通过增强信任来间接影响意愿，直接影响微乎其微。
                        </div>
                      </div>
@@ -854,9 +962,9 @@ export default function App() {
                         whileHover={{ scale: 1.02 }}
                         className="h-full bg-slate-900 text-white rounded-3xl p-8 shadow-2xl shadow-slate-900/20 relative overflow-hidden flex flex-col justify-center"
                       >
-                         <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/20 rounded-full blur-[50px] pointer-events-none"></div>
+                         <div className="absolute top-0 right-0 w-40 h-40 bg-[#E9687A]/20 rounded-full blur-[50px] pointer-events-none"></div>
                          <div className="relative z-10">
-                           <h4 className="text-emerald-400 font-bold uppercase text-xs tracking-wider mb-3 flex items-center">
+                           <h4 className="text-[#F8B2A2] font-bold uppercase text-xs tracking-wider mb-3 flex items-center">
                              <Lightbulb size={14} className="mr-1"/> Insight #1
                            </h4>
                            <h3 className="text-2xl font-bold mb-4">信任替代认知</h3>
@@ -870,27 +978,10 @@ export default function App() {
                     <div className="lg:col-span-2">
                       <Card className="h-full">
                         <h4 className="font-bold text-slate-800 mb-6 text-sm flex items-center">
-                          <Target className="mr-2 text-rose-500"/> 风险阻碍排行 (Worry vs Intention Diff)
+                          <Target className="mr-2 text-[#E9687A]"/> 风险阻碍排行 (Worry vs Intention Diff)
                         </h4>
-                        <div className="h-[300px]">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <ComposedChart
-                              layout="vertical"
-                              data={riskData}
-                              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                            >
-                              <CartesianGrid stroke="#f5f5f5" horizontal={false} />
-                              <XAxis type="number" domain={[-0.5, 0.5]} tickCount={5} />
-                              <YAxis dataKey="name" type="category" scale="band" width={80} tick={{fontSize: 11}} />
-                              <Tooltip />
-                              <Legend />
-                              <Bar dataKey="worry" barSize={20} fill="#cbd5e1" name="Worry % (Scaled)" background={{ fill: '#eee' }} />
-                              <Scatter name="Intention Diff" dataKey="impact" fill="#f43f5e" shape="diamond" />
-                            </ComposedChart>
-                          </ResponsiveContainer>
-                        </div>
-                        <div className="text-[10px] text-slate-400 text-center mt-2">
-                          * Bar length represents Worry %. Diamond position represents Intention Difference.
+                        <div className="flex items-center justify-center">
+                          <img src={riskIntentionImg} alt="Risk Intention Chart" className="w-full h-auto max-h-[380px] object-contain" />
                         </div>
                       </Card>
                     </div>
@@ -905,18 +996,21 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                  className="space-y-8"
                 >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <Card>
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <Share2 className="mr-2 text-indigo-500" size={20}/> 变量关联网络
+                      <Share2 className="mr-2 text-[#B6B3D6]" size={20}/> 变量关联网络
                     </h3>
-                    <CorrelationNetwork />
+                    <div className="flex justify-center">
+                      <img src={variableChordImg} alt="变量关联网络" className="max-w-full h-auto max-h-[450px] object-contain" />
+                    </div>
                     <p className="text-center text-xs text-slate-500 mt-6 bg-slate-50 py-2 rounded-lg">“信任”处于网络的中心枢纽位置，连接政策与态度。</p>
                   </Card>
                   <Card>
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <BarChart2 className="mr-2 text-rose-500" size={20}/> 意识空间分布 (PCA)
+                      <BarChart2 className="mr-2 text-[#E9687A]" size={20}/> 意识空间分布 (PCA)
                     </h3>
                     <div className="h-[320px]">
                       <ResponsiveContainer width="100%" height="100%">
@@ -939,6 +1033,17 @@ export default function App() {
                       <span className="flex items-center"><div className="w-2 h-2 bg-slate-400 rounded-full mr-1"></div> 低意愿</span>
                     </div>
                   </Card>
+                  </div>
+
+                  <Card>
+                    <h3 className="font-bold text-slate-800 mb-6 flex items-center">
+                      <GitCommit className="mr-2 text-[#E9687A]" size={20}/> 认知-意愿 转化流 (Sankey)
+                    </h3>
+                    <div className="flex items-center justify-center">
+                      <img src={sankeyImg} alt="Sankey Flow Chart" className="w-full h-auto max-h-[550px] object-contain" />
+                    </div>
+                    <p className="text-center text-xs text-slate-500 mt-6 bg-slate-50 py-2 rounded-lg">展示从不同认知水平群体向购买意愿等级的流动情况。可以发现，即使是"中立"认知的群体，也有相当一部分流向了"高意愿"，这再次印证了信任的中介作用。</p>
+                  </Card>
                 </motion.div>
               )}
 
@@ -953,14 +1058,16 @@ export default function App() {
                 >
                   <Card className="col-span-1 md:col-span-2">
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <Activity className="mr-2 text-indigo-500"/> 核心变量分布 (Ridgeline Plot)
+                      <Activity className="mr-2 text-[#B6B3D6]"/> 核心变量分布 (Ridgeline Plot)
                     </h3>
-                    <RidgelineChart />
+                    <div className="flex justify-center">
+                      <img src={ridgelineImg} alt="核心变量分布" className="max-w-full h-auto max-h-[500px] object-contain" />
+                    </div>
                   </Card>
 
                   <Card className="flex flex-col items-center">
                      <h3 className="font-bold text-slate-800 mb-4 w-full text-left flex items-center">
-                       <Users className="mr-2 text-blue-500"/> 性别同质性
+                       <Users className="mr-2 text-[#B6B3D6]"/> 性别同质性
                      </h3>
                      <div className="h-[350px] w-full">
                        <ResponsiveContainer width="100%" height="100%">
@@ -975,7 +1082,7 @@ export default function App() {
                           </RadarChart>
                         </ResponsiveContainer>
                      </div>
-                     <p className="text-sm text-slate-500 bg-blue-50 px-4 py-2 rounded-lg">图形高度重叠，表明在绿色议题上不存在显著的性别鸿沟。</p>
+                     <p className="text-sm text-slate-500 bg-[#CFCFE3]/30 px-4 py-2 rounded-lg">图形高度重叠，表明在绿色议题上不存在显著的性别鸿沟。</p>
                   </Card>
                   <Card>
                      <h3 className="font-bold text-slate-800 mb-8 flex items-center">
@@ -1001,8 +1108,8 @@ export default function App() {
       <section id="conclusion" className="py-24 px-6 bg-slate-900 text-white relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[100px]"></div>
-          <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px]"></div>
+          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-[#E9687A]/5 rounded-full blur-[100px]"></div>
+          <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#B6B3D6]/5 rounded-full blur-[100px]"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -1019,8 +1126,8 @@ export default function App() {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
           >
-            <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-emerald-500/50 transition-all hover:bg-slate-800 group">
-              <div className="bg-emerald-500/10 w-14 h-14 rounded-2xl flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
+            <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-[#E9687A]/50 transition-all hover:bg-slate-800 group">
+              <div className="bg-[#E9687A]/10 w-14 h-14 rounded-2xl flex items-center justify-center text-[#F8B2A2] mb-6 group-hover:scale-110 transition-transform">
                 <Shield size={28} />
               </div>
               <h3 className="text-xl font-bold mb-4 text-white">信任构建机制</h3>
@@ -1029,7 +1136,7 @@ export default function App() {
               </p>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-blue-500/50 transition-all hover:bg-slate-800 group">
-              <div className="bg-blue-500/10 w-14 h-14 rounded-2xl flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+              <div className="bg-[#B6B3D6]/10 w-14 h-14 rounded-2xl flex items-center justify-center text-[#B6B3D6] mb-6 group-hover:scale-110 transition-transform">
                 <Users size={28} />
               </div>
               <h3 className="text-xl font-bold mb-4 text-white">代际共识</h3>
@@ -1037,8 +1144,8 @@ export default function App() {
                 Z 世代已形成超越性别与专业的<strong>全球绿色共识</strong>。营销应利用这一“代际同质性”，将 EV 塑造为一种符合其身份认同的文化符号。
               </p>
             </motion.div>
-            <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-rose-500/50 transition-all hover:bg-slate-800 group">
-              <div className="bg-rose-500/10 w-14 h-14 rounded-2xl flex items-center justify-center text-rose-400 mb-6 group-hover:scale-110 transition-transform">
+            <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-[#F8B2A2]/50 transition-all hover:bg-slate-800 group">
+              <div className="bg-[#F8B2A2]/10 w-14 h-14 rounded-2xl flex items-center justify-center text-[#F8B2A2] mb-6 group-hover:scale-110 transition-transform">
                 <Target size={28} />
               </div>
               <h3 className="text-xl font-bold mb-4 text-white">痛点精准打击</h3>
