@@ -13,16 +13,17 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 
-// 导入静态图片
+// Import static images
 import semPathImg from './assets/Advanced_SEM_Path.png';
 import riskIntentionImg from './assets/Advanced_Risk_Intention.png';
 import sankeyImg from './assets/Advanced_Sankey_Knowledge_to_Intention.png';
 import variableChordImg from './assets/Advanced_Variable_Chord.png';
 import ridgelineImg from './assets/Advanced_Ridgeline_Core_Indices.png';
+import pcaImg from './assets/Advanced_Awareness_PCA.png';
 
-// --- 1. 数据部分 (Data) ---
+// --- 1. Data Section ---
 
-// 配色方案 (与图表一致)
+// Color Scheme (consistent with charts)
 const COLORS = {
   primary: '#B6B3D6',      // Cool Purple-Grey
   primaryLight: '#CFCFE3',
@@ -34,36 +35,36 @@ const COLORS = {
   accent: '#E9687A',       // Deep Red-Pink
 };
 
-// 1.1 样本分布
+// 1.1 Sample Distribution
 const demographicsData = [
-  { name: '男性', value: 47, fill: '#B6B3D6' },
-  { name: '女性', value: 28, fill: '#E9687A' },
+  { name: 'Male', value: 47, fill: '#B6B3D6' },
+  { name: 'Female', value: 28, fill: '#E9687A' },
 ];
 
-// 1.2 学历差异 (Dumbbell Data)
+// 1.2 Education Differences (Dumbbell Data)
 const dumbbellData = [
-  { category: '政策支持', undergraduate: 4.15, master: 4.17, phd: 4.41 },
-  { category: '技术信任', undergraduate: 4.00, master: 4.22, phd: 4.41 },
-  { category: '责任感', undergraduate: 3.56, master: 3.90, phd: 3.92 },
-  { category: '知识水平', undergraduate: 3.81, master: 3.98, phd: 3.99 },
+  { category: 'Policy Support', undergraduate: 4.15, master: 4.17, phd: 4.41 },
+  { category: 'Tech Trust', undergraduate: 4.00, master: 4.22, phd: 4.41 },
+  { category: 'Responsibility', undergraduate: 3.56, master: 3.90, phd: 3.92 },
+  { category: 'Knowledge', undergraduate: 3.81, master: 3.98, phd: 3.99 },
 ];
 
-// 1.3 雷达图数据 (性别对比)
+// 1.3 Radar Chart Data (Gender Comparison)
 const genderRadarData = [
-  { subject: '技术信任', A: 4.04, B: 4.36, fullMark: 5 },
-  { subject: 'EV技术认知', A: 3.86, B: 4.13, fullMark: 5 },
-  { subject: '政策执行', A: 4.21, B: 4.14, fullMark: 5 },
-  { subject: '政策支持度', A: 4.50, B: 4.43, fullMark: 5 },
-  { subject: '限油支持', A: 4.18, B: 3.91, fullMark: 5 },
+  { subject: 'Tech Trust', A: 4.04, B: 4.36, fullMark: 5 },
+  { subject: 'EV Tech Awareness', A: 3.86, B: 4.13, fullMark: 5 },
+  { subject: 'Policy Execution', A: 4.21, B: 4.14, fullMark: 5 },
+  { subject: 'Policy Support', A: 4.50, B: 4.43, fullMark: 5 },
+  { subject: 'Oil Restriction', A: 4.18, B: 3.91, fullMark: 5 },
 ];
 
-// 1.4 风险数据 (Composed Chart Data)
+// 1.4 Risk Data (Composed Chart Data)
 const riskData = [
-  { name: '高昂价格', impact: -0.26, worry: 17, label: '17%' },
-  { name: '里程焦虑', impact: -0.21, worry: 59, label: '59%' },
-  { name: '充电不便', impact: -0.40, worry: 67, label: '67%' },
-  { name: '电池安全', impact: 0.28, worry: 72, label: '72%' },
-  { name: '整体安全', impact: 0.01, worry: 72, label: '72%' },
+  { name: 'High Price', impact: -0.26, worry: 17, label: '17%' },
+  { name: 'Range Anxiety', impact: -0.21, worry: 59, label: '59%' },
+  { name: 'Charging Inconvenience', impact: -0.40, worry: 67, label: '67%' },
+  { name: 'Battery Safety', impact: 0.28, worry: 72, label: '72%' },
+  { name: 'Overall Safety', impact: 0.01, worry: 72, label: '72%' },
 ];
 
 // 1.7 Ridgeline Data (Simulated)
@@ -81,8 +82,8 @@ const ridgelineData = Array.from({ length: 50 }, (_, i) => {
 // 1.8 Sankey Data
 const sankeyData = {
   nodes: [
-    { name: '非常不了解' }, { name: '不了解' }, { name: '中立' }, { name: '了解' }, { name: '非常了解' },
-    { name: '非常不可能' }, { name: '不可能' }, { name: '不确定' }, { name: '可能' }, { name: '非常可能' }
+    { name: 'Very Unfamiliar' }, { name: 'Unfamiliar' }, { name: 'Neutral' }, { name: 'Familiar' }, { name: 'Very Familiar' },
+    { name: 'Very Unlikely' }, { name: 'Unlikely' }, { name: 'Uncertain' }, { name: 'Likely' }, { name: 'Very Likely' }
   ],
   links: [
     { source: 0, target: 5, value: 1 },
@@ -93,30 +94,30 @@ const sankeyData = {
   ]
 };
 
-// 1.5 PCA 散点图模拟数据
+// 1.5 PCA Scatter Plot Simulated Data
 const pcaData = [
-  { x: 2.5, y: 1.1, type: '高意愿 (High Int)', fill: '#E9687A' }, 
-  { x: 1.8, y: 0.8, type: '高意愿 (High Int)', fill: '#E9687A' },
-  { x: 2.1, y: -0.5, type: '高意愿 (High Int)', fill: '#E9687A' },
-  { x: 1.2, y: -2.0, type: '高意愿 (High Int)', fill: '#E9687A' },
-  { x: 0.5, y: -1.5, type: '高意愿 (High Int)', fill: '#E9687A' },
-  { x: 0.2, y: 0.8, type: '中意愿 (Med Int)', fill: '#F8B2A2' },
-  { x: -0.5, y: 0.5, type: '中意愿 (Med Int)', fill: '#F8B2A2' },
-  { x: -1.2, y: 1.2, type: '中意愿 (Med Int)', fill: '#F8B2A2' },
-  { x: -1.5, y: -0.8, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
-  { x: -2.0, y: 0.2, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
-  { x: -0.8, y: -2.2, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
-  { x: -2.5, y: -0.3, type: '低意愿 (Low Int)', fill: '#B6B3D6' },
+  { x: 2.5, y: 1.1, type: 'High Intention', fill: '#E9687A' }, 
+  { x: 1.8, y: 0.8, type: 'High Intention', fill: '#E9687A' },
+  { x: 2.1, y: -0.5, type: 'High Intention', fill: '#E9687A' },
+  { x: 1.2, y: -2.0, type: 'High Intention', fill: '#E9687A' },
+  { x: 0.5, y: -1.5, type: 'High Intention', fill: '#E9687A' },
+  { x: 0.2, y: 0.8, type: 'Medium Intention', fill: '#F8B2A2' },
+  { x: -0.5, y: 0.5, type: 'Medium Intention', fill: '#F8B2A2' },
+  { x: -1.2, y: 1.2, type: 'Medium Intention', fill: '#F8B2A2' },
+  { x: -1.5, y: -0.8, type: 'Low Intention', fill: '#B6B3D6' },
+  { x: -2.0, y: 0.2, type: 'Low Intention', fill: '#B6B3D6' },
+  { x: -0.8, y: -2.2, type: 'Low Intention', fill: '#B6B3D6' },
+  { x: -2.5, y: -0.3, type: 'Low Intention', fill: '#B6B3D6' },
 ];
 
-// 1.6 相关性弦图数据模拟
+// 1.6 Correlation Chord Diagram Data
 const chordNodes = [
-  { id: 'Trust', label: '信任', color: '#E9687A', angle: 0 },
-  { id: 'Policy', label: '政策', color: '#B6B3D6', angle: 60 },
-  { id: 'Attitude', label: '态度', color: '#D5D3DE', angle: 120 },
-  { id: 'Intention', label: '意愿', color: '#F1837A', angle: 180 },
-  { id: 'Know', label: '认知', color: '#CFCFE3', angle: 240 },
-  { id: 'Resp', label: '责任', color: '#F8B2A2', angle: 300 },
+  { id: 'Trust', label: 'Trust', color: '#E9687A', angle: 0 },
+  { id: 'Policy', label: 'Policy', color: '#B6B3D6', angle: 60 },
+  { id: 'Attitude', label: 'Attitude', color: '#D5D3DE', angle: 120 },
+  { id: 'Intention', label: 'Intention', color: '#F1837A', angle: 180 },
+  { id: 'Know', label: 'Knowledge', color: '#CFCFE3', angle: 240 },
+  { id: 'Resp', label: 'Responsibility', color: '#F8B2A2', angle: 300 },
 ];
 
 const chordLinks = [
@@ -129,7 +130,7 @@ const chordLinks = [
   { source: 'Resp', target: 'Attitude', value: 0.27, width: 3 },
 ];
 
-// --- 动画配置 (Animations) ---
+// --- Animation Config ---
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
@@ -150,7 +151,7 @@ const scaleIn = {
   visible: { scale: 1, opacity: 1, transition: { duration: 0.5 } }
 };
 
-// --- 组件部分 (Components) ---
+// --- Components ---
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -186,14 +187,14 @@ const NavBar = () => {
         </div>
         
         {/* Desktop Menu */}
-        <div className={`hidden md:flex space-x-1 font-medium ${scrolled ? 'text-slate-600' : 'text-slate-200'}`}>
-          {['背景', '方法', '数据探索', '结论'].map((item, idx) => {
+        <div className={`hidden md:flex space-x-1 font-medium ${scrolled ? 'text-slate-700' : 'text-white/90'}`}>
+          {['Background', 'Methods', 'Data Explorer', 'Conclusions'].map((item, idx) => {
              const ids = ['background', 'methodology', 'dashboard', 'conclusion'];
              return (
                <button 
                  key={item} 
                  onClick={() => scrollTo(ids[idx])}
-                 className={`px-4 py-2 rounded-full transition-all hover:bg-[#E9687A]/10 hover:text-[#E9687A] ${scrolled ? '' : 'hover:bg-white/10 hover:text-white'}`}
+                 className={`px-4 py-2 rounded-full transition-all ${scrolled ? 'hover:bg-[#E9687A]/10 hover:text-[#E9687A]' : 'hover:bg-white/10'}`}
                >
                  {item}
                </button>
@@ -217,7 +218,7 @@ const NavBar = () => {
             className="absolute top-full left-0 right-0 bg-white shadow-lg border-t border-slate-100 overflow-hidden md:hidden"
           >
             <div className="p-4 flex flex-col space-y-2">
-              {['背景', '方法', '数据探索', '结论'].map((item, idx) => {
+              {['Background', 'Methods', 'Data Explorer', 'Conclusions'].map((item, idx) => {
                 const ids = ['background', 'methodology', 'dashboard', 'conclusion'];
                 return (
                   <button 
@@ -276,28 +277,28 @@ const CorrelationNetwork = () => {
     };
   };
 
-  // 计算标签位置，避免重叠
+  // Calculate label position to avoid overlap
   const getLabelOffset = (link, sourcePos, targetPos) => {
     const midX = (sourcePos.x + targetPos.x) / 2;
     const midY = (sourcePos.y + targetPos.y) / 2;
-    // 计算从中心点到连线中点的方向，将标签向外偏移
+    // Calculate direction from center to midpoint of link, offset label outwards
     const dirX = midX - center;
     const dirY = midY - center;
     const dist = Math.sqrt(dirX * dirX + dirY * dirY);
-    const offsetDist = 25; // 偏移距离
+    const offsetDist = 25; // Offset distance
     return {
       x: midX + (dirX / dist) * offsetDist,
       y: midY + (dirY / dist) * offsetDist
     };
   };
 
-  // 检查连线是否与当前悬停节点相关
+  // Check if link is related to current hovered node
   const isLinkHighlighted = (link) => {
     if (!hoveredNode) return false;
     return link.source === hoveredNode || link.target === hoveredNode;
   };
 
-  // 检查节点是否与当前悬停节点相关联
+  // Check if node is related to current hovered node
   const isNodeHighlighted = (nodeId) => {
     if (!hoveredNode) return true;
     if (nodeId === hoveredNode) return true;
@@ -444,9 +445,9 @@ const DumbbellChart = () => {
             ></motion.div>
             
             {[
-              { val: item.undergraduate, color: 'bg-[#CFCFE3]', label: '本科' },
-              { val: item.master, color: 'bg-[#B6B3D6]', label: '硕士' },
-              { val: item.phd, color: 'bg-[#E9687A]', label: '博士' }
+              { val: item.undergraduate, color: 'bg-[#CFCFE3]', label: 'Undergrad' },
+              { val: item.master, color: 'bg-[#B6B3D6]', label: 'Master' },
+              { val: item.phd, color: 'bg-[#E9687A]', label: 'PhD' }
             ].map((point, pIdx) => (
               <motion.div 
                 key={pIdx}
@@ -465,9 +466,9 @@ const DumbbellChart = () => {
         </motion.div>
       ))}
       <div className="flex justify-center gap-6 text-xs text-slate-500 mt-2 pt-4 border-t border-slate-100">
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#CFCFE3] mr-2"></div>本科生</div>
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#B6B3D6] mr-2"></div>硕士生</div>
-        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#E9687A] mr-2"></div>博士生</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#CFCFE3] mr-2"></div>Undergraduate</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#B6B3D6] mr-2"></div>Master's</div>
+        <div className="flex items-center"><div className="w-3 h-3 rounded-full bg-[#E9687A] mr-2"></div>PhD</div>
       </div>
     </div>
   );
@@ -716,9 +717,9 @@ export default function App() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl md:text-7xl font-extrabold leading-tight mb-8 tracking-tight"
           >
-            能源转型背景下<br/>
+            Energy Transition Era:<br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F8B2A2] via-[#F6DFD6] to-[#CFCFE3]">
-              大学生能源认知与 EV 态度
+              College Students' Energy Perception & EV Attitudes
             </span>
           </motion.h1>
           
@@ -728,7 +729,7 @@ export default function App() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-slate-300 max-w-2xl text-lg md:text-xl leading-relaxed mb-12 font-light"
           >
-            从“知识驱动”到“制度信任”的范式转变。本研究通过对 75 名中国大学生的实证分析，揭示了 Z 世代在“碳中和”愿景下的绿色决策机制。
+            A paradigm shift from "knowledge-driven" to "institutional trust". This study reveals the green decision-making mechanism of Gen Z under the "carbon neutrality" vision through empirical analysis of 75 Chinese university students.
           </motion.p>
           
           <motion.div 
@@ -741,11 +742,11 @@ export default function App() {
               onClick={() => document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' })}
               className="bg-[#E9687A] hover:bg-[#F1837A] text-white px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(233,104,122,0.3)] hover:shadow-[0_0_30px_rgba(233,104,122,0.5)] flex items-center justify-center gap-2 group"
             >
-              探索数据可视化 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              Explore Data Visualization <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button className="bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-full font-medium transition-all border border-white/10 backdrop-blur-sm flex items-center justify-center gap-2 hover:border-white/30">
               <FileText size={18} />
-              下载完整论文 PDF
+              Download Full Paper PDF
             </button>
           </motion.div>
         </div>
@@ -755,8 +756,8 @@ export default function App() {
       <section id="background" className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <SectionTitle 
-            title="研究背景" 
-            subtitle="全球能源系统正经历一场深刻而系统性的转型，交通电气化是核心驱动力。" 
+            title="Background" 
+            subtitle="The global energy system is undergoing a profound and systemic transformation, with transportation electrification being a core driver." 
           />
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -768,9 +769,9 @@ export default function App() {
                className="space-y-8"
              >
                {[
-                 { icon: Globe, color: 'text-[#B6B3D6]', bg: 'bg-[#CFCFE3]/30', title: '全球气候目标', desc: '根据国际可再生能源署 (IRENA) 《2023年世界能源转型展望》，为实现温升控制在 1.5°C 以内的目标，交通系统的电气化变革刻不容缓。' },
-                 { icon: Activity, color: 'text-[#F1837A]', bg: 'bg-[#F6DFD6]', title: '交通部门排放', desc: '交通运输约占全球 CO₂ 排放总量的 1/4。推广新能源汽车 (EVs) 不仅是技术升级，更是深度脱碳的核心路径。' },
-                 { icon: Users, color: 'text-[#E9687A]', bg: 'bg-[#F6DFD6]', title: '为什么关注大学生？', desc: '作为未来的消费主力军，大学生正处于从学校步入社会的人生转折点。他们的认知与态度，将深刻预示未来几十年的社会交通模式。' }
+                 { icon: Globe, color: 'text-[#B6B3D6]', bg: 'bg-[#CFCFE3]/30', title: 'Global Climate Goals', desc: 'According to IRENA\'s "World Energy Transitions Outlook 2023", the electrification of transport is urgent to limit global warming to 1.5°C.' },
+                 { icon: Activity, color: 'text-[#F1837A]', bg: 'bg-[#F6DFD6]', title: 'Transport Emissions', desc: 'Transport accounts for ~1/4 of global CO₂ emissions. Promoting EVs is not just a tech upgrade, but a core path to deep decarbonization.' },
+                 { icon: Users, color: 'text-[#E9687A]', bg: 'bg-[#F6DFD6]', title: 'Why College Students?', desc: 'As future consumers, students are at a pivotal life stage. Their perceptions and attitudes will deeply foreshadow social transport patterns for decades.' }
                ].map((item, i) => (
                  <motion.div key={i} variants={fadeInUp} className="flex items-start space-x-5 group">
                    <div className={`${item.bg} p-4 rounded-2xl ${item.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
@@ -795,13 +796,13 @@ export default function App() {
              >
                <div className="absolute top-0 right-0 w-64 h-64 bg-[#B6B3D6]/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-[#B6B3D6]/10 transition-all"></div>
                <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center">
-                 <Search className="mr-3 text-[#E9687A]" /> 研究问题 (Research Questions)
+                 <Search className="mr-3 text-[#E9687A]" /> Research Questions
                </h3>
                <ul className="space-y-4 relative z-10">
                  {[
-                   '大学生的能源认知是否直接决定了购买意愿？',
-                   '在集体主义文化背景下，"制度信任"扮演了什么角色？',
-                   '性别、专业等人口统计学变量是否仍造成显著差异？'
+                   'Does students\' energy knowledge directly determine purchase intention?',
+                   'What role does "institutional trust" play in a collectivist culture?',
+                   'Do demographic variables like gender and major still cause significant differences?'
                  ].map((q, i) => (
                    <motion.li 
                      key={i} 
@@ -824,8 +825,8 @@ export default function App() {
       <section id="methodology" className="py-24 px-6 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto">
           <SectionTitle 
-            title="研究方法" 
-            subtitle="采用定量研究方法，结合多种统计工具进行深度分析。" 
+            title="Methodology" 
+            subtitle="Adopting quantitative research methods combined with various statistical tools for in-depth analysis." 
           />
           
           <motion.div 
@@ -836,10 +837,10 @@ export default function App() {
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
           >
             {[
-              { label: '样本量', val: '75', icon: Users, sub: '中国大学生群体' },
-              { label: '专业构成', val: '83%', icon: BookOpen, sub: '理工科背景主导' },
-              { label: '分析工具', val: 'SEM', icon: Network, sub: '结构方程模型' },
-              { label: '降维分析', val: 'PCA', icon: BarChart2, sub: '主成分分析' },
+              { label: 'Sample Size', val: '75', icon: Users, sub: 'Chinese University Students' },
+              { label: 'Major Composition', val: '83%', icon: BookOpen, sub: 'STEM Background Dominant' },
+              { label: 'Analysis Tool', val: 'SEM', icon: Network, sub: 'Structural Equation Modeling' },
+              { label: 'Dim. Reduction', val: 'PCA', icon: BarChart2, sub: 'Principal Component Analysis' },
             ].map((item, i) => (
               <Card key={i} className="flex flex-col items-center text-center py-10 hover:border-[#F8B2A2]">
                 <div className="bg-slate-100 p-4 rounded-full mb-5 text-slate-600 group-hover:bg-[#F6DFD6] group-hover:text-[#E9687A] transition-colors">
@@ -860,32 +861,32 @@ export default function App() {
             className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-10"
           >
             <h3 className="text-xl font-bold mb-8 text-slate-800 flex items-center">
-              <GitCommit className="mr-3 text-[#B6B3D6]"/> 研究架构与变量定义
+              <GitCommit className="mr-3 text-[#B6B3D6]"/> Research Framework & Variable Definitions
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
               {/* Connecting Line for Desktop */}
               <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-[#CFCFE3] via-[#F8B2A2] to-[#E9687A] -z-10"></div>
 
               <div className="space-y-4 text-center md:text-left">
-                <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">自变量 (IV)</span>
+                <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">Independent Variable (IV)</span>
                 <div className="p-6 bg-[#CFCFE3]/30 rounded-2xl border border-[#B6B3D6]/30 text-slate-700 font-bold text-lg shadow-sm">
-                  能源认知 (Knowledge)
+                  Energy Knowledge
                 </div>
-                <p className="text-sm text-slate-500 leading-relaxed">对能源转型、EV技术原理的基础了解程度。</p>
+                <p className="text-sm text-slate-500 leading-relaxed">Basic understanding of energy transition and EV technology principles.</p>
               </div>
               <div className="space-y-4 text-center md:text-left">
-                 <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">中介变量 (Mediator)</span>
+                 <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">Mediator Variable</span>
                  <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#E9687A] font-bold text-lg shadow-sm">
-                   制度信任 & 责任感
+                   Institutional Trust & Responsibility
                  </div>
-                 <p className="text-sm text-slate-500 leading-relaxed">对国家政策的认同、对技术的信心、环境责任感。</p>
+                 <p className="text-sm text-slate-500 leading-relaxed">Agreement with national policies, confidence in technology, environmental responsibility.</p>
               </div>
               <div className="space-y-4 text-center md:text-left">
-                 <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">因变量 (DV)</span>
+                 <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">Dependent Variable (DV)</span>
                  <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#E9687A] font-bold text-lg shadow-sm">
-                   购买意愿 (Intention)
+                   Purchase Intention
                  </div>
-                 <p className="text-sm text-slate-500 leading-relaxed">未来购买新能源汽车的可能性。</p>
+                 <p className="text-sm text-slate-500 leading-relaxed">Likelihood of purchasing new energy vehicles in the future.</p>
               </div>
             </div>
           </motion.div>
@@ -896,17 +897,15 @@ export default function App() {
       <section id="dashboard" className="py-24 px-6 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto">
            <SectionTitle 
-            title="数据探索" 
-            subtitle="交互式图表揭示核心发现。点击下方标签切换视角。" 
-          />
-
-          {/* Tabs Navigation */}
+            title="Data Exploration" 
+            subtitle="Interactive charts reveal core findings. Click tabs below to switch views." 
+           />          {/* Tabs Navigation */}
           <div className="flex justify-center mb-12">
             <div className="inline-flex bg-slate-100 p-1.5 rounded-2xl relative gap-2">
               {[
-                { id: 'demographics', label: '群体特征' },
-                { id: 'overview', label: '核心机制' },
-                { id: 'deep-dive', label: '深度分析' }
+                { id: 'demographics', label: 'Demographics' },
+                { id: 'overview', label: 'Core Mechanism' },
+                { id: 'deep-dive', label: 'Deep Dive' }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -939,7 +938,7 @@ export default function App() {
                   <Card className="w-full">
                      <div className="flex justify-between items-center mb-8">
                        <h3 className="font-bold text-xl text-slate-800 flex items-center">
-                         <Network className="mr-2 text-[#E9687A]"/> 路径分析模型 (SEM)
+                         <Network className="mr-2 text-[#E9687A]"/> Path Analysis Model (SEM)
                        </h3>
                        <span className="text-xs font-mono bg-[#F6DFD6] text-[#E9687A] px-3 py-1 rounded-full border border-[#F8B2A2]">Model Fit: Good (RMSEA=0.04)</span>
                      </div>
@@ -949,8 +948,8 @@ export default function App() {
                      <div className="mt-6 p-4 bg-[#CFCFE3]/30 rounded-xl border border-[#B6B3D6]/30 text-sm text-slate-700 leading-relaxed flex items-start gap-3">
                        <Lightbulb className="text-[#E9687A] shrink-0 mt-0.5" size={18} />
                        <div>
-                         <strong className="text-[#E9687A] block mb-1">关键路径发现：</strong> 
-                         知识 → 信任 (β=0.22) → 意愿 (β=0.45)。这表明知识主要通过增强信任来间接影响意愿，直接影响微乎其微。
+                         <strong className="text-[#E9687A] block mb-1">Key Path Findings:</strong> 
+                         Knowledge → Trust (β=0.22) → Intention (β=0.45). This indicates that knowledge mainly affects intention indirectly by enhancing trust, with negligible direct impact.
                        </div>
                      </div>
                   </Card>
@@ -967,9 +966,9 @@ export default function App() {
                            <h4 className="text-[#F8B2A2] font-bold uppercase text-xs tracking-wider mb-3 flex items-center">
                              <Lightbulb size={14} className="mr-1"/> Insight #1
                            </h4>
-                           <h3 className="text-2xl font-bold mb-4">信任替代认知</h3>
+                           <h3 className="text-2xl font-bold mb-4">Trust Replaces Knowledge</h3>
                            <p className="text-slate-300 text-sm leading-relaxed">
-                             中介效应占比高达 <strong>76.2%</strong>。在面对复杂技术时，学生并非依赖技术细节，而是依赖对“国家战略”的信任来做出判断。
+                             The mediation effect accounts for <strong>76.2%</strong>. When facing complex technologies, students rely on trust in "national strategy" rather than technical details to make judgments.
                            </p>
                          </div>
                       </motion.div>
@@ -978,7 +977,7 @@ export default function App() {
                     <div className="lg:col-span-2">
                       <Card className="h-full">
                         <h4 className="font-bold text-slate-800 mb-6 text-sm flex items-center">
-                          <Target className="mr-2 text-[#E9687A]"/> 风险阻碍排行 (Worry vs Intention Diff)
+                          <Target className="mr-2 text-[#E9687A]"/> Risk Barrier Ranking (Worry vs Intention Diff)
                         </h4>
                         <div className="flex items-center justify-center">
                           <img src={riskIntentionImg} alt="Risk Intention Chart" className="w-full h-auto max-h-[380px] object-contain" />
@@ -1001,48 +1000,31 @@ export default function App() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <Card>
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <Share2 className="mr-2 text-[#B6B3D6]" size={20}/> 变量关联网络
+                      <Share2 className="mr-2 text-[#B6B3D6]" size={20}/> Variable Correlation Network
                     </h3>
                     <div className="flex justify-center">
-                      <img src={variableChordImg} alt="变量关联网络" className="max-w-full h-auto max-h-[450px] object-contain" />
+                      <img src={variableChordImg} alt="Variable Correlation Network" className="max-w-full h-auto max-h-[450px] object-contain" />
                     </div>
-                    <p className="text-center text-xs text-slate-500 mt-6 bg-slate-50 py-2 rounded-lg">“信任”处于网络的中心枢纽位置，连接政策与态度。</p>
+                    <p className="text-center text-xs text-slate-500 mt-6 bg-slate-50 py-2 rounded-lg">"Trust" is at the central hub of the network, connecting policy and attitude.</p>
                   </Card>
                   <Card>
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <BarChart2 className="mr-2 text-[#E9687A]" size={20}/> 意识空间分布 (PCA)
+                      <BarChart2 className="mr-2 text-[#E9687A]" size={20}/> Consciousness Space Distribution (PCA)
                     </h3>
-                    <div className="h-[320px]">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                          <XAxis type="number" dataKey="x" name="信任倾向" tick={false} axisLine={false} />
-                          <YAxis type="number" dataKey="y" name="责任倾向" tick={false} axisLine={false} />
-                          <Tooltip cursor={{ strokeDasharray: '3 3' }} contentStyle={{ borderRadius: '8px' }} />
-                          <ReferenceLine y={0} stroke="#cbd5e1" />
-                          <ReferenceLine x={0} stroke="#cbd5e1" />
-                          <Scatter name="高意愿" data={pcaData.filter(d=>d.type.includes('High'))} fill="#f87171" />
-                          <Scatter name="中意愿" data={pcaData.filter(d=>d.type.includes('Med'))} fill="#fbbf24" />
-                          <Scatter name="低意愿" data={pcaData.filter(d=>d.type.includes('Low'))} fill="#94a3b8" />
-                        </ScatterChart>
-                      </ResponsiveContainer>
-                    </div>
-                    <div className="text-xs text-center text-slate-500 mt-4 flex justify-center gap-4">
-                      <span className="flex items-center"><div className="w-2 h-2 bg-red-400 rounded-full mr-1"></div> 高意愿</span>
-                      <span className="flex items-center"><div className="w-2 h-2 bg-amber-400 rounded-full mr-1"></div> 中意愿</span>
-                      <span className="flex items-center"><div className="w-2 h-2 bg-slate-400 rounded-full mr-1"></div> 低意愿</span>
+                    <div className="flex justify-center">
+                      <img src={pcaImg} alt="Consciousness Space Distribution (PCA)" className="max-w-full h-auto max-h-[450px] object-contain" />
                     </div>
                   </Card>
                   </div>
 
                   <Card>
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <GitCommit className="mr-2 text-[#E9687A]" size={20}/> 认知-意愿 转化流 (Sankey)
+                      <GitCommit className="mr-2 text-[#E9687A]" size={20}/> Cognition-Intention Flow (Sankey)
                     </h3>
                     <div className="flex items-center justify-center">
                       <img src={sankeyImg} alt="Sankey Flow Chart" className="w-full h-auto max-h-[550px] object-contain" />
                     </div>
-                    <p className="text-center text-xs text-slate-500 mt-6 bg-slate-50 py-2 rounded-lg">展示从不同认知水平群体向购买意愿等级的流动情况。可以发现，即使是"中立"认知的群体，也有相当一部分流向了"高意愿"，这再次印证了信任的中介作用。</p>
+                    <p className="text-center text-xs text-slate-500 mt-6 bg-slate-50 py-2 rounded-lg">Shows the flow from different knowledge level groups to purchase intention levels. It can be seen that even among the "Neutral" knowledge group, a significant portion flows to "High Intention", reaffirming the mediating role of trust.</p>
                   </Card>
                 </motion.div>
               )}
@@ -1058,16 +1040,16 @@ export default function App() {
                 >
                   <Card className="col-span-1 md:col-span-2">
                     <h3 className="font-bold text-slate-800 mb-6 flex items-center">
-                      <Activity className="mr-2 text-[#B6B3D6]"/> 核心变量分布 (Ridgeline Plot)
+                      <Activity className="mr-2 text-[#B6B3D6]"/> Core Variable Distribution (Ridgeline Plot)
                     </h3>
                     <div className="flex justify-center">
-                      <img src={ridgelineImg} alt="核心变量分布" className="max-w-full h-auto max-h-[500px] object-contain" />
+                      <img src={ridgelineImg} alt="Core Variable Distribution" className="max-w-full h-auto max-h-[500px] object-contain" />
                     </div>
                   </Card>
 
                   <Card className="flex flex-col items-center">
                      <h3 className="font-bold text-slate-800 mb-4 w-full text-left flex items-center">
-                       <Users className="mr-2 text-[#B6B3D6]"/> 性别同质性
+                       <Users className="mr-2 text-[#B6B3D6]"/> Gender Homogeneity
                      </h3>
                      <div className="h-[350px] w-full">
                        <ResponsiveContainer width="100%" height="100%">
@@ -1075,25 +1057,25 @@ export default function App() {
                             <PolarGrid stroke="#e2e8f0" />
                             <PolarAngleAxis dataKey="subject" tick={{ fill: '#64748b', fontSize: 11 }} />
                             <PolarRadiusAxis angle={30} domain={[0, 5]} tick={false} axisLine={false} />
-                            <Radar name="男性" dataKey="A" stroke="#3b82f6" strokeWidth={2} fill="#3b82f6" fillOpacity={0.2} />
-                            <Radar name="女性" dataKey="B" stroke="#ec4899" strokeWidth={2} fill="#ec4899" fillOpacity={0.2} />
+                            <Radar name="Male" dataKey="A" stroke="#B6B3D6" strokeWidth={2} fill="#B6B3D6" fillOpacity={0.2} />
+                            <Radar name="Female" dataKey="B" stroke="#E9687A" strokeWidth={2} fill="#E9687A" fillOpacity={0.2} />
                             <Legend />
                             <Tooltip contentStyle={{ borderRadius: '8px' }} />
                           </RadarChart>
                         </ResponsiveContainer>
                      </div>
-                     <p className="text-sm text-slate-500 bg-[#CFCFE3]/30 px-4 py-2 rounded-lg">图形高度重叠，表明在绿色议题上不存在显著的性别鸿沟。</p>
+                     <p className="text-sm text-slate-500 bg-[#CFCFE3]/30 px-4 py-2 rounded-lg">The graphs overlap significantly, indicating no significant gender gap on green issues.</p>
                   </Card>
                   <Card>
                      <h3 className="font-bold text-slate-800 mb-8 flex items-center">
-                       <BookOpen className="mr-2 text-amber-500"/> 学历影响 (哑铃图)
+                       <BookOpen className="mr-2 text-amber-500"/> Education Impact (Dumbbell Chart)
                      </h3>
                      <DumbbellChart />
                      <div className="mt-8 bg-amber-50 p-5 rounded-xl border border-amber-100 flex items-start gap-3">
                        <Lightbulb className="text-amber-600 shrink-0 mt-0.5" size={18} />
                        <div>
-                         <h4 className="font-bold text-amber-800 text-sm mb-1">发现</h4>
-                         <p className="text-amber-700 text-xs leading-relaxed">博士群体在“政策支持”和“技术信任”上得分显著更高，显示出高学历与高制度信任的正相关性。</p>
+                         <h4 className="font-bold text-amber-800 text-sm mb-1">Discovery</h4>
+                         <p className="text-amber-700 text-xs leading-relaxed">PhD groups score significantly higher on "Policy Support" and "Tech Trust", showing a positive correlation between higher education and institutional trust.</p>
                        </div>
                      </div>
                   </Card>
@@ -1114,8 +1096,8 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <SectionTitle 
-            title="结论与启示" 
-            subtitle="从理论发现到政策建议的转化。" 
+            title="Conclusions & Implications" 
+            subtitle="Translating theoretical findings into policy recommendations." 
             light={true}
           />
 
@@ -1130,33 +1112,33 @@ export default function App() {
               <div className="bg-[#E9687A]/10 w-14 h-14 rounded-2xl flex items-center justify-center text-[#F8B2A2] mb-6 group-hover:scale-110 transition-transform">
                 <Shield size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">信任构建机制</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">Trust Building Mechanism</h3>
               <p className="text-slate-400 leading-relaxed text-sm">
-                对于大众传播，无需过分纠结于晦涩的技术参数。更有效的策略是建立<strong>“国家背书”</strong>和<strong>“基础设施透明化”</strong>，从而增强制度信任。
+                For mass communication, there is no need to dwell on obscure technical parameters. A more effective strategy is to establish <strong>"National Endorsement"</strong> and <strong>"Infrastructure Transparency"</strong> to enhance institutional trust.
               </p>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-blue-500/50 transition-all hover:bg-slate-800 group">
               <div className="bg-[#B6B3D6]/10 w-14 h-14 rounded-2xl flex items-center justify-center text-[#B6B3D6] mb-6 group-hover:scale-110 transition-transform">
                 <Users size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">代际共识</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">Generational Consensus</h3>
               <p className="text-slate-400 leading-relaxed text-sm">
-                Z 世代已形成超越性别与专业的<strong>全球绿色共识</strong>。营销应利用这一“代际同质性”，将 EV 塑造为一种符合其身份认同的文化符号。
+                Gen Z has formed a <strong>global green consensus</strong> transcending gender and major. Marketing should leverage this "generational homogeneity" to shape EVs as a cultural symbol aligning with their identity.
               </p>
             </motion.div>
             <motion.div variants={fadeInUp} className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-700 hover:border-[#F8B2A2]/50 transition-all hover:bg-slate-800 group">
               <div className="bg-[#F8B2A2]/10 w-14 h-14 rounded-2xl flex items-center justify-center text-[#F8B2A2] mb-6 group-hover:scale-110 transition-transform">
                 <Target size={28} />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">痛点精准打击</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">Precise Pain Point Targeting</h3>
               <p className="text-slate-400 leading-relaxed text-sm">
-                数据明确显示，<strong>“充电不便”</strong>对意愿的杀伤力远超“里程焦虑”。政策重心应从提升单车续航转向完善充电网络的可及性。
+                Data clearly shows that <strong>"Charging Inconvenience"</strong> has a far greater negative impact on intention than "Range Anxiety". Policy focus should shift from increasing vehicle range to improving charging network accessibility.
               </p>
             </motion.div>
           </motion.div>
 
           <div className="text-center border-t border-slate-800 pt-12">
-            <p className="text-slate-500 text-sm mb-2">© 2024 能源转型与大学生认知研究小组 | 基于真实调研数据构建</p>
+            <p className="text-slate-500 text-sm mb-2">© 2025 Energy Transition & Student Perception Research Group | Built on Real Survey Data</p>
             <p className="text-slate-600 text-xs">Designed with React & Tailwind CSS</p>
           </div>
         </div>
