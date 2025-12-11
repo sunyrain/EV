@@ -183,7 +183,7 @@ const NavBar = () => {
           <div className="bg-[#E9687A] p-1.5 rounded-lg text-white">
             <Zap size={20} fill="currentColor" />
           </div>
-          <span className="tracking-tight">EV Research <span className="font-light opacity-80">2024</span></span>
+          <span className="tracking-tight">EV Research <span className="font-light opacity-80">2025</span></span>
         </div>
         
         {/* Desktop Menu */}
@@ -708,7 +708,7 @@ export default function App() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F8B2A2] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E9687A]"></span>
             </span>
-            <span>Research Report 2024</span>
+            <span>Research Report 2025</span>
           </motion.div>
           
           <motion.h1 
@@ -770,8 +770,8 @@ export default function App() {
              >
                {[
                  { icon: Globe, color: 'text-[#B6B3D6]', bg: 'bg-[#CFCFE3]/30', title: 'Global Climate Goals', desc: 'According to IRENA\'s "World Energy Transitions Outlook 2023", the electrification of transport is urgent to limit global warming to 1.5°C.' },
-                 { icon: Activity, color: 'text-[#F1837A]', bg: 'bg-[#F6DFD6]', title: 'Transport Emissions', desc: 'Transport accounts for ~1/4 of global CO₂ emissions. Promoting EVs is not just a tech upgrade, but a core path to deep decarbonization.' },
-                 { icon: Users, color: 'text-[#E9687A]', bg: 'bg-[#F6DFD6]', title: 'Why College Students?', desc: 'As future consumers, students are at a pivotal life stage. Their perceptions and attitudes will deeply foreshadow social transport patterns for decades.' }
+                 { icon: Activity, color: 'text-[#E9687A]', bg: 'bg-[#E9687A]/10', title: 'Transport Emissions', desc: 'Transport accounts for ~1/4 of global CO₂ emissions. Promoting EVs is not just a tech upgrade, but a core path to deep decarbonization.' },
+                 { icon: Users, color: 'text-[#F1837A]', bg: 'bg-[#F6DFD6]', title: 'Why College Students?', desc: 'As future consumers, students are at a pivotal life stage. Their perceptions and attitudes will deeply foreshadow social transport patterns for decades.' }
                ].map((item, i) => (
                  <motion.div key={i} variants={fadeInUp} className="flex items-start space-x-5 group">
                    <div className={`${item.bg} p-4 rounded-2xl ${item.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
@@ -811,7 +811,7 @@ export default function App() {
                      transition={{ delay: 0.2 + i * 0.1 }}
                      className="flex items-center space-x-4 bg-white p-5 rounded-xl shadow-sm border border-slate-100 hover:border-[#F8B2A2] transition-colors"
                    >
-                     <span className="bg-[#E9687A] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md shadow-[#F6DFD6]">{i+1}</span>
+                     <span className="flex-shrink-0 bg-[#E9687A] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-md shadow-[#F6DFD6]">{i+1}</span>
                      <span className="text-slate-700 font-medium text-lg">{q}</span>
                    </motion.li>
                  ))}
@@ -876,14 +876,14 @@ export default function App() {
               </div>
               <div className="space-y-4 text-center md:text-left">
                  <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">Mediator Variable</span>
-                 <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#E9687A] font-bold text-lg shadow-sm">
+                 <div className="p-6 bg-[#E9687A]/10 rounded-2xl border border-[#E9687A]/30 text-[#E9687A] font-bold text-lg shadow-sm">
                    Institutional Trust & Responsibility
                  </div>
                  <p className="text-sm text-slate-500 leading-relaxed">Agreement with national policies, confidence in technology, environmental responsibility.</p>
               </div>
               <div className="space-y-4 text-center md:text-left">
                  <span className="inline-block px-3 py-1 rounded-full bg-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">Dependent Variable (DV)</span>
-                 <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#E9687A] font-bold text-lg shadow-sm">
+                 <div className="p-6 bg-[#F6DFD6] rounded-2xl border border-[#F8B2A2] text-[#F1837A] font-bold text-lg shadow-sm">
                    Purchase Intention
                  </div>
                  <p className="text-sm text-slate-500 leading-relaxed">Likelihood of purchasing new energy vehicles in the future.</p>
